@@ -1,73 +1,99 @@
-# React + TypeScript + Vite
+# Assembly: Endgame
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A Wordle/Hangman-style word-guessing game built as a **learning project** for React. Based on the [Scrimba "Intro to React" final project](https://scrimba.com/).
 
-Currently, two official plugins are available:
+## What this is
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+This is a hands-on project for learning modern React patterns. The goal is to build a real, working game while applying React concepts in context — not just reading about them.
 
-## React Compiler
+## How to play
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- A secret programming-related word is chosen at random.
+- Guess letters one at a time by clicking the on-screen keyboard.
+- Each wrong guess eliminates a programming language "faction".
+- Guess the word before all 8 factions are wiped out — or the **Endgame** begins.
 
-## Expanding the ESLint configuration
+## Concepts practiced
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- **React 19** function components and hooks (`useState`, `useEffect`, `useRef`)
+- **Derived state** — computing values from existing state instead of storing them separately
+- **Props and callbacks** — passing data down, events up
+- **Component composition** — splitting UI into small, focused pieces
+- **TypeScript** — strict types for props, state, and game-domain models
+- **CSS Modules + Sass** — scoped component styles with Bootstrap overrides
+- **Vite** — fast dev server and production bundler
 
-```js
-export default defineConfig([
-    globalIgnores(["dist"]),
-    {
-        files: ["**/*.{ts,tsx}"],
-        extends: [
-            // Other configs...
+## Stack
 
-            // Remove tseslint.configs.recommended and replace with this
-            tseslint.configs.recommendedTypeChecked,
-            // Alternatively, use this for stricter rules
-            tseslint.configs.strictTypeChecked,
-            // Optionally, add this for stylistic rules
-            tseslint.configs.stylisticTypeChecked,
+| Tool                | Purpose                 |
+| ------------------- | ----------------------- |
+| React 19            | UI framework            |
+| TypeScript ~6       | Static typing           |
+| Vite                | Dev server + bundler    |
+| Bootstrap 5 + Sass  | Styling base            |
+| CSS Modules         | Scoped component styles |
+| ESLint + Prettier   | Code quality            |
+| Husky + lint-staged | Pre-commit hooks        |
 
-            // Other configs...
-        ],
-        languageOptions: {
-            parserOptions: {
-                project: ["./tsconfig.node.json", "./tsconfig.app.json"],
-                tsconfigRootDir: import.meta.dirname,
-            },
-            // other options...
-        },
-    },
-])
+## Project structure
+
+```
+src/
+  component/    # one .tsx + .module.scss pair per component
+  data/         # static data: word list, faction definitions, constants
+  styles/       # global SCSS: design tokens + Bootstrap overrides
+  types.ts      # shared TypeScript types
+  App.tsx       # root component — owns all game state
+  main.tsx      # ReactDOM entry point
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Running locally
 
-```js
-// eslint.config.js
-import reactX from "eslint-plugin-react-x"
-import reactDom from "eslint-plugin-react-dom"
+```bash
+npm install
+npm run dev       # start dev server at localhost:5173
+npm run build     # type-check + production build
+npm run lint      # run ESLint
+npm run preview   # preview the production build
+```
 
-export default defineConfig([
-    globalIgnores(["dist"]),
-    {
-        files: ["**/*.{ts,tsx}"],
-        extends: [
-            // Other configs...
-            // Enable lint rules for React
-            reactX.configs["recommended-typescript"],
-            // Enable lint rules for React DOM
-            reactDom.configs.recommended,
-        ],
-        languageOptions: {
-            parserOptions: {
-                project: ["./tsconfig.node.json", "./tsconfig.app.json"],
-                tsconfigRootDir: import.meta.dirname,
-            },
-            // other options...
-        },
-    },
-])
+## Running with Docker
+
+A `Makefile` wraps all Docker Compose commands — no need to remember long `docker compose` invocations.
+
+### Development
+
+```bash
+cp docker.env-example docker.env   # configure ports and Node version
+make up                            # start the dev container (installs deps automatically)
+make logs                          # tail live output
+```
+
+The app is served with Vite HMR at `http://localhost:5173`. Source files are mounted directly into the container, so edits are reflected instantly without rebuilding.
+
+### Useful make targets
+
+| Command          | What it does                              |
+| ---------------- | ----------------------------------------- |
+| `make up`        | Start the dev container                   |
+| `make down`      | Stop and remove containers                |
+| `make logs`      | Tail live container logs                  |
+| `make shell`     | Open a shell inside the running container |
+| `make install`   | Run `npm install` inside the container    |
+| `make add PKG=x` | Install a package inside the container    |
+| `make build`     | Production build inside the container     |
+| `make preview`   | Preview the production build              |
+| `make clean`     | Stop containers and wipe volumes          |
+
+Run `make help` to see the full list.
+
+### Production
+
+The production image uses a multi-stage build: Node compiles the app, then Nginx serves the static files.
+
+```bash
+make prod-build   # build the production image
+make prod-up      # start the production container
+make prod-down    # stop the production container
+make prod-logs    # tail production logs
 ```

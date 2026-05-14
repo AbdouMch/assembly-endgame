@@ -16,13 +16,33 @@ function App() {
         LANGUAGES.map((lang) => ({ ...lang, isAlive: true })),
     )
 
-    const [keyboard] = useState<KeyState[]>(() =>
+    const [keyboard, setKeyboard] = useState<KeyState[]>(() =>
         ALPHABET.split("").map((letter) => ({ value: letter, isHeld: false, isCorrect: false })),
     )
 
-    const [wordLetters] = useState<WordLetter[]>(() =>
+    const [wordLetters, setWordLetter] = useState<WordLetter[]>(() =>
         currentWord.split("").map((letter) => ({ value: letter, isFound: false })),
     )
+
+    function handleKeyClick(lettre: string): void {
+        const lettreFound = currentWord.toLowerCase().includes(lettre)
+
+        if (lettreFound) {
+            setWordLetter((prevLetters) =>
+                prevLetters.map((l) =>
+                    l.value.toLowerCase() === lettre ? { ...l, isFound: true } : l,
+                ),
+            )
+        }
+
+        setKeyboard((prevKeys) =>
+            prevKeys.map((k) =>
+                k.value.toLowerCase() === lettre
+                    ? { ...k, isHeld: true, isCorrect: lettreFound }
+                    : k,
+            ),
+        )
+    }
 
     return (
         <>
@@ -39,7 +59,7 @@ function App() {
                 </div>
                 <FactionList languages={languages} />
                 <WordDisplay letters={wordLetters} />
-                <Keyboard keys={keyboard} />
+                <Keyboard keys={keyboard} onKeyClick={handleKeyClick} />
             </main>
         </>
     )
