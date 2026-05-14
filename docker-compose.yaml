@@ -1,0 +1,15 @@
+services:
+    react-app:
+        image: node:${NODE_VERSION}
+        working_dir: /app
+        ports:
+            - "${HOST_PORT}:${CONTAINER_PORT}"
+            - "${HOST_PREVIEW_PORT}:${CONTAINER_PREVIEW_PORT}"
+        volumes:
+            - .:/app
+        command: sh -c "[ -f package.json ] && npm install && npm run dev -- --host --port ${CONTAINER_PORT} || tail -f /dev/null"
+        user: "${USER_ID}:${GROUP_ID}"
+        env_file:
+            - docker.env
+        environment:
+            - NODE_ENV=${NODE_ENV}
