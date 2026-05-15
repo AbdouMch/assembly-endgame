@@ -8,7 +8,7 @@ export type LanguageState = Language & {
     isAlive: boolean
 }
 
-export type KeyState = {
+export type Key = {
     value: string
     isHeld: boolean
     isCorrect: boolean

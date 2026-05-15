@@ -1,10 +1,10 @@
 import styles from "./Keyboard.module.scss"
 
 import KeyboardKey from "@/component/KeyboardKey"
-import type { KeyState } from "@/types.ts"
+import type { Key } from "@/types.ts"
 
 type Props = {
-    keys: KeyState[]
+    keys: Key[]
     onKeyClick: (lettre: string) => void
 }
 

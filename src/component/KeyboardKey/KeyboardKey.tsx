@@ -8,15 +8,10 @@ type Props = {
 }
 
 export default function KeyboardKey({ value, isHeld, isCorrect, onClick }: Props) {
-    const keyStyle = {
-        backgroundColor: isHeld && isCorrect ? "#10A95B" : isHeld ? "#EC5D49" : "#FCBA29",
-    }
-
     return (
         <div>
             <button
-                className={`${styles.key} btn`}
-                style={keyStyle}
+                className={`${styles.key} btn ${isCorrect ? styles.correct : isHeld ? styles.wrong : ""}`}
                 disabled={isHeld}
                 onClick={onClick}
             >

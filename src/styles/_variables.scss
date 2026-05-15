@@ -2,11 +2,16 @@
     --font-family: "Hanken Grotesk";
     --bs-btn-font-family: "Hanken Grotesk";
     font-optical-sizing: auto;
-    --text: #8e8e8e;
+    --text: #8E8E8E;
     --text-h: rgb(255 255 255);
     --bg: #282726;
     --border: #e5e4e7;
     --shadow: rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+    --color-key-default: #FCBA29;
+    --color-key-correct: #10A95B;
+    --color-key-text-correct: var(--text-h);
+    --color-key-wrong: #EC5D49;
+    --color-key-text-wrong: var(--text-h);
 
     --sans: system-ui, "Segoe UI", Roboto, sans-serif;
     --heading: system-ui, "Segoe UI", Roboto, sans-serif;

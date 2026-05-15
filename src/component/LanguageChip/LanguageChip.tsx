@@ -15,8 +15,8 @@ export default function LanguageChip({ name, isAlive, backgroundColor, color }: 
     }
 
     return (
-        <div className={styles.chip}>
-            <span className={styles.label} style={chipStyle}>
+        <div className={styles.chipContainer}>
+            <span className={styles.chip} style={chipStyle}>
                 {name}
             </span>
             {!isAlive && (

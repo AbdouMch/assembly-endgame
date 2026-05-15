@@ -1,11 +1,11 @@
-.chip {
+.chipContainer {
     position: relative;
     display: inline-block;
 }
 
-.label {
+.chip {
     display: inline-block;
-    padding: 0.25rem 0.75rem;
+    padding: 0.28rem;
     border-radius: var(--bs-border-radius);
     font-family: var(--font-family), sans-serif;
     font-weight: 600;

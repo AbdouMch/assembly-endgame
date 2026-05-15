@@ -1,25 +1,19 @@
 .header {
     font-weight: 500;
-    font-style: Medium;
-    font-size: 20px;
-    line-height: 100%;
-    letter-spacing: 0%;
-    text-align: center;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 11px;
-    height: 80px;
     box-shadow:
         0 1px 3px 0 var(--border),
         0 1px 2px 0 rgba(0, 0, 0, 0.06);
-}
 
-.header > img {
-    width: 50px;
-}
+    h1 {
+        font-size: 1.25rem;
+        font-weight: 500;
+        color: #F9F4DA;
+    }
 
-.header > h1 {
-    font-weight: 400;
+    p {
+        text-align: center;
+        width: 350px;
+        font-size: 0.875rem;
+        font-weight: 400;
+    }
 }

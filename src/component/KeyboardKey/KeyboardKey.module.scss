@@ -5,4 +5,18 @@
     border-width: 1px;
     padding: 6px;
     font-weight: 600;
+    background-color: var(--color-key-default);
+    --bs-btn-hover-bg: color-mix(in srgb, var(--color-key-default) 80%, black);
+    --bs-btn-hover-border-color: transparent;
+
+    &.correct {
+        color: var(--color-key-text-correct);
+        background-color: var(--color-key-correct);
+        --bs-btn-hover-bg: color-mix(in srgb, var(--color-key-correct) 80%, black);
+    }
+    &.wrong {
+        color: var(--color-key-text-wrong);
+        background-color: var(--color-key-wrong);
+        --bs-btn-hover-bg: color-mix(in srgb, var(--color-key-wrong) 80%, black);
+    }
 }

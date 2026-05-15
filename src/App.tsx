@@ -3,57 +3,66 @@ import Header from "@/component/Header"
 
 import { LANGUAGES } from "@/data/languages"
 import { ALPHABET } from "@/data/constants"
-import type { LanguageState, KeyState, WordLetter } from "@/types"
+import type { LanguageState, Key, WordLetter } from "@/types"
 import Keyboard from "@/component/Keyboard"
 import FactionList from "@/component/FactionList"
 import WordDisplay from "@/component/WordDisplay"
 
 function App() {
+    let wrongGuesses = 0
+
     const note = "Let's get started!"
     const currentWord = "Hello"
 
-    const [languages] = useState<LanguageState[]>(() =>
-        LANGUAGES.map((lang) => ({ ...lang, isAlive: true })),
-    )
+    const [guessedLetters, setGuessedLetters] = useState<Set<string>>(new Set())
 
-    const [keyboard, setKeyboard] = useState<KeyState[]>(() =>
-        ALPHABET.split("").map((letter) => ({ value: letter, isHeld: false, isCorrect: false })),
-    )
+    const keyboard = ALPHABET.split("").map((letter): Key => {
+        const held = guessedLetters.has(letter.toLowerCase())
+        const exists = currentWord.toLowerCase().includes(letter.toLowerCase())
+        const correct = held && exists
 
-    const [wordLetters, setWordLetter] = useState<WordLetter[]>(() =>
-        currentWord.split("").map((letter) => ({ value: letter, isFound: false })),
-    )
-
-    function handleKeyClick(lettre: string): void {
-        const lettreFound = currentWord.toLowerCase().includes(lettre)
-
-        if (lettreFound) {
-            setWordLetter((prevLetters) =>
-                prevLetters.map((l) =>
-                    l.value.toLowerCase() === lettre ? { ...l, isFound: true } : l,
-                ),
-            )
+        if (held && !exists) {
+            wrongGuesses++
         }
 
-        setKeyboard((prevKeys) =>
-            prevKeys.map((k) =>
-                k.value.toLowerCase() === lettre
-                    ? { ...k, isHeld: true, isCorrect: lettreFound }
-                    : k,
-            ),
-        )
+        return {
+            value: letter,
+            isHeld: held,
+            isCorrect: correct,
+        }
+    })
+
+    const wordLetters = currentWord.split("").map(
+        (letter): WordLetter => ({
+            value: letter,
+            isFound: guessedLetters.has(letter.toLowerCase()),
+        }),
+    )
+
+    const languages = LANGUAGES.map((lang): LanguageState => {
+        if (wrongGuesses > 0) {
+            wrongGuesses--
+
+            return {
+                ...lang,
+                isAlive: false,
+            }
+        }
+
+        return {
+            ...lang,
+            isAlive: true,
+        }
+    })
+
+    function handleKeyClick(lettre: string): void {
+        setGuessedLetters((prevSet: Set<string>) => new Set([...prevSet, lettre]))
     }
 
     return (
         <>
             <Header />
             <main className="container d-flex flex-column align-items-md-center">
-                <div className="d-flex justify-content-center flex-wrap mt-5">
-                    <p>
-                        Guess the word in under 8 attempts to keep the programming world safe from
-                        Assembly!
-                    </p>
-                </div>
                 <div className="d-flex justify-content-center flex-wrap mt-5">
                     <p>{note}</p>
                 </div>
