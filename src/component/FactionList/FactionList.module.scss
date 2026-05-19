@@ -1,5 +1,6 @@
+@use "../../styles/variables" as *;
+
 .languagesContainer {
-    width: 60%;
-    row-gap: 10px;
-    column-gap: 10px;
+    row-gap: rem(10);
+    column-gap: rem(10);
 }

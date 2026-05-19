@@ -1,25 +1,29 @@
 import styles from "./Keyboard.module.scss"
 
-import KeyboardKey from "@/component/KeyboardKey"
-import type { Key } from "@/types.ts"
+import { clsx } from "clsx"
+
+import Key from "./Key"
+import type { Key as KeyType } from "@/types.ts"
 
 type Props = {
-    keys: Key[]
+    keys: KeyType[]
     onKeyClick: (lettre: string) => void
+    isGameOver: boolean
 }
 
-export default function Keyboard({ keys, onKeyClick }: Props) {
+export default function Keyboard({ keys, onKeyClick, isGameOver }: Props) {
     return (
-        <div className={`${styles.keyboardContainer} d-flex justify-content-center flex-wrap mt-5`}>
+        <section className={clsx(styles.keyboardContainer, "mt-5")}>
             {keys.map((key) => (
-                <KeyboardKey
+                <Key
                     key={key.value}
                     value={key.value}
                     isHeld={key.isHeld}
                     isCorrect={key.isCorrect}
+                    isGameOver={isGameOver}
                     onClick={() => onKeyClick(key.value.toLowerCase())}
                 />
             ))}
-        </div>
+        </section>
     )
 }

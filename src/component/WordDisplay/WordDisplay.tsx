@@ -1,17 +1,31 @@
 import styles from "./WordDisplay.module.scss"
+
+import { clsx } from "clsx"
+
 import type { WordLetter } from "@/types.ts"
-import MissingLetter from "@/component/MissingLetter"
+import MissingLetter from "./MissingLetter"
 
 type Props = {
     letters: WordLetter[]
+    isGameLost: boolean
 }
 
-export default function WordDisplay({ letters }: Props) {
+export default function WordDisplay({ letters, isGameLost }: Props) {
     return (
-        <div className={`${styles.lettersContainer} d-flex justify-content-center flex-wrap mt-5`}>
+        <section
+            className={clsx(
+                styles.lettersContainer,
+                "d-flex justify-content-center flex-wrap mt-5",
+            )}
+        >
             {letters.map((letter, index) => (
-                <MissingLetter key={index} value={letter.value} isFound={letter.isFound} />
+                <MissingLetter
+                    key={index}
+                    value={letter.value}
+                    isFound={letter.isFound}
+                    isGameLost={isGameLost}
+                />
             ))}
-        </div>
+        </section>
     )
 }

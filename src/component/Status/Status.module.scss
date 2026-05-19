@@ -1,0 +1,33 @@
+@use "../../styles/variables" as *;
+
+.status {
+    min-width: rem(380);
+    height: rem(70);
+    padding: rem(10);
+    border-radius: rem(4);
+    margin-top: rem(20);
+
+    &.lost {
+        background-color: var(--red);
+    }
+
+    &.won {
+        background-color: var(--green);
+    }
+
+    &.farewell {
+        border: 1px dashed #323232;
+        background-color: var(--purple);
+    }
+
+    > h2 {
+        font-weight: 500;
+        font-size: rem(20);
+    }
+
+    > p {
+        font-size: rem(18);
+        font-weight: 500;
+        color: var(--text-h);
+    }
+}

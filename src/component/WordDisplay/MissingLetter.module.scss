@@ -1,0 +1,18 @@
+@use "../../styles/variables" as *;
+
+.letter {
+    width: rem(40);
+    height: rem(40);
+    gap: rem(6);
+    opacity: 1;
+    padding: rem(6);
+    background-color: #323232;
+    border-bottom: 1px solid #f9f4da;
+    font-weight: 900;
+    text-transform: uppercase;
+    color: var(--text-white);
+
+    &.gameLost {
+        color: var(--red);
+    }
+}

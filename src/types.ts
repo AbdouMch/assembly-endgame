@@ -5,7 +5,7 @@ export type Language = {
 }
 
 export type LanguageState = Language & {
-    isAlive: boolean
+    lost: boolean
 }
 
 export type Key = {

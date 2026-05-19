@@ -1,0 +1,23 @@
+.chip {
+    position: relative;
+    padding: 0.28rem;
+    border-radius: var(--bs-border-radius);
+    font-family: var(--font-family), sans-serif;
+    font-weight: 600;
+
+    /* Dimmed overlay with skull on "lost" languages */
+    &.lost::before {
+        content: "💀";
+        position: absolute;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        width: 100%;
+        font-size: 0.85rem;
+        top: 0;
+        left: 0;
+        background-color: rgba(0, 0, 0, 0.7);
+        border-radius: var(--bs-border-radius);
+    }
+}

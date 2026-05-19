@@ -1,13 +1,16 @@
+@use "../../styles/variables" as *;
+
 .key {
-    width: 40px;
-    height: 40px;
+    width: rem(40);
+    height: rem(40);
     opacity: 1;
     border-width: 1px;
-    padding: 6px;
+    padding: rem(6);
     font-weight: 600;
     background-color: var(--color-key-default);
     --bs-btn-hover-bg: color-mix(in srgb, var(--color-key-default) 80%, black);
     --bs-btn-hover-border-color: transparent;
+    text-transform: uppercase;
 
     &.correct {
         color: var(--color-key-text-correct);
@@ -18,5 +21,11 @@
         color: var(--color-key-text-wrong);
         background-color: var(--color-key-wrong);
         --bs-btn-hover-bg: color-mix(in srgb, var(--color-key-wrong) 80%, black);
+    }
+
+    &.disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        color: var(--text-h);
     }
 }

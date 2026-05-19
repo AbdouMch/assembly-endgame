@@ -1,2 +1,1 @@
-export const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-export const MAX_WRONG_GUESSES = 8
+export const ALPHABET = "abcdefghijklmnopqrstuvwxyz"

@@ -1,5 +1,13 @@
+@use "../../styles/variables" as *;
+
 .keyboardContainer {
-    width: 50%;
-    row-gap: 10px;
-    column-gap: 10px;
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    align-content: center;
+
+    row-gap: rem(10);
+    column-gap: rem(10);
+    > :nth-child(21) {
+        grid-column-start: 3;
+    }
 }

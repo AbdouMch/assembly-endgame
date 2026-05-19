@@ -1,29 +1,44 @@
+import styles from "./App.module.scss"
+
 import { useState } from "react"
-import Header from "@/component/Header"
+import Confetti from "react-confetti"
 
 import { LANGUAGES } from "@/data/languages"
 import { ALPHABET } from "@/data/constants"
+import { getRandomWord } from "@/utils.ts"
 import type { LanguageState, Key, WordLetter } from "@/types"
+
+import Header from "@/component/Header"
 import Keyboard from "@/component/Keyboard"
 import FactionList from "@/component/FactionList"
 import WordDisplay from "@/component/WordDisplay"
+import Status from "@/component/Status"
+import ResetButton from "@/component/ResetButton"
 
 function App() {
-    let wrongGuesses = 0
+    // Static variables
+    const maxGuessesCount = LANGUAGES.length - 1
 
-    const note = "Let's get started!"
-    const currentWord = "Hello"
+    // States
+    const [currentWord, setCurrentWord] = useState<string>(getRandomWord)
+    const [guessedLetters, setGuessedLetters] = useState<string[]>([])
 
-    const [guessedLetters, setGuessedLetters] = useState<Set<string>>(new Set())
+    // Derived variables
+    const wrongGuessesCount = guessedLetters.filter((l) => !currentWord.includes(l)).length
+
+    const isGameLost = wrongGuessesCount >= maxGuessesCount
+    const isGameWon = [...new Set(currentWord)].every((l) => guessedLetters.includes(l))
+    const isGameOver = isGameLost || isGameWon
+
+    const lastGuessedLetter = guessedLetters.at(-1) ?? ""
+    const isLastGuessCorrect = guessedLetters.length > 0 && currentWord.includes(lastGuessedLetter)
+    const lostLanguage =
+        !isLastGuessCorrect && wrongGuessesCount > 0 ? LANGUAGES[wrongGuessesCount - 1].name : null
 
     const keyboard = ALPHABET.split("").map((letter): Key => {
-        const held = guessedLetters.has(letter.toLowerCase())
-        const exists = currentWord.toLowerCase().includes(letter.toLowerCase())
+        const held = guessedLetters.includes(letter)
+        const exists = currentWord.includes(letter)
         const correct = held && exists
-
-        if (held && !exists) {
-            wrongGuesses++
-        }
 
         return {
             value: letter,
@@ -35,40 +50,43 @@ function App() {
     const wordLetters = currentWord.split("").map(
         (letter): WordLetter => ({
             value: letter,
-            isFound: guessedLetters.has(letter.toLowerCase()),
+            isFound: guessedLetters.includes(letter),
         }),
     )
 
-    const languages = LANGUAGES.map((lang): LanguageState => {
-        if (wrongGuesses > 0) {
-            wrongGuesses--
-
-            return {
-                ...lang,
-                isAlive: false,
-            }
-        }
-
+    const languages = LANGUAGES.map((lang, index): LanguageState => {
         return {
             ...lang,
-            isAlive: true,
+            lost: index < wrongGuessesCount,
         }
     })
 
-    function handleKeyClick(lettre: string): void {
-        setGuessedLetters((prevSet: Set<string>) => new Set([...prevSet, lettre]))
+    function handleKeyClick(letter: string): void {
+        if (!guessedLetters.includes(letter)) {
+            setGuessedLetters((prevGuessedLetters: string[]) => [...prevGuessedLetters, letter])
+        }
+    }
+
+    function handleReset() {
+        setCurrentWord(getRandomWord)
+        setGuessedLetters([])
     }
 
     return (
         <>
-            <Header />
+            {isGameWon && <Confetti className={styles.confetti} />}
+            <Header maxGuessesCount={maxGuessesCount} />
             <main className="container d-flex flex-column align-items-md-center">
-                <div className="d-flex justify-content-center flex-wrap mt-5">
-                    <p>{note}</p>
-                </div>
+                <Status
+                    isGameLost={isGameLost}
+                    isGameWon={isGameWon}
+                    isGameOver={isGameOver}
+                    lostLanguage={lostLanguage}
+                />
                 <FactionList languages={languages} />
-                <WordDisplay letters={wordLetters} />
-                <Keyboard keys={keyboard} onKeyClick={handleKeyClick} />
+                <WordDisplay letters={wordLetters} isGameLost={isGameLost} />
+                <Keyboard keys={keyboard} isGameOver={isGameOver} onKeyClick={handleKeyClick} />
+                {isGameOver && <ResetButton onClick={handleReset} />}
             </main>
         </>
     )
