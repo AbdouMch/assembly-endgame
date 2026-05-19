@@ -3,6 +3,12 @@
 .letter {
     width: rem(40);
     height: rem(40);
+
+    @media (max-width: 600px) {
+        width: rem(32);
+        height: rem(32);
+        font-size: 0.85rem;
+    }
     gap: rem(6);
     opacity: 1;
     padding: rem(6);

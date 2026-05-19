@@ -1,7 +1,8 @@
 @use "../../styles/variables" as *;
 
 .status {
-    min-width: rem(380);
+    min-width: 0;
+    width: 100%;
     height: rem(70);
     padding: rem(10);
     border-radius: rem(4);

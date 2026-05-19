@@ -1,8 +1,14 @@
 @use "../../styles/variables" as *;
 
 .key {
-    width: rem(40);
+    width: 100%;
     height: rem(40);
+
+    @media (max-width: 600px) {
+        height: rem(34);
+        padding: rem(4);
+        font-size: 0.8rem;
+    }
     opacity: 1;
     border-width: 1px;
     padding: rem(6);

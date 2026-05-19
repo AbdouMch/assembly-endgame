@@ -10,7 +10,8 @@
 
     p {
         text-align: center;
-        width: rem(350);
+        max-width: rem(350);
+        width: 100%;
         font-size: 0.875rem;
         font-weight: 400;
     }

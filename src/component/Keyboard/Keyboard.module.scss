@@ -7,6 +7,11 @@
 
     row-gap: rem(10);
     column-gap: rem(10);
+
+    @media (max-width: 600px) {
+        row-gap: rem(6);
+        column-gap: rem(6);
+    }
     > :nth-child(21) {
         grid-column-start: 3;
     }
